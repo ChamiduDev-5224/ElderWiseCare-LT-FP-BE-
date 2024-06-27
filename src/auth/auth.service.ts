@@ -1,28 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
-
+import { SignupDto } from './dto/signup.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Rate } from 'src/entities/rate.entity';
+import { User } from 'src/entities/user.entity';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+ 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    console.log(createAuthDto);
-    
-    return 'This action adds a new auth';
-  }
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async signup(createAuthDto: SignupDto): Promise<any> {
+    const { userName, email, password } = createAuthDto;
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    const emailalreadyTaken =await this.userRepository.existsBy({email:email});
+    const userNameAlreadyTaken =await this.userRepository.existsBy({unm:userName});
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
+    if(emailalreadyTaken){
+      return {
+        message: 'Email is already existed.',
+        sts: 2,
+      }
+    }
+    if(userNameAlreadyTaken){
+      return {
+        message: 'Username is already existed.',
+        sts: 2,
+      }
+    }
+    const hashPwd = await bcrypt.hash(password, 10);
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    const user = this.userRepository.create({
+      unm: userName,
+      email: email,
+      pwd: hashPwd,
+    });
+
+    try {
+      await this.userRepository.save(user);
+
+      return {
+        message: 'User successfully registered',
+        sts: 1,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
+  
 }
