@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Rate } from './rate.entity';
 
-@Entity({ name: 'users' })
+@Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', comment: 'UserId' })
   uid: number;
@@ -52,4 +53,9 @@ export class User {
   upd: string;
   @Column({ nullable: true, comment: 'Created Date Time' })
   crd: string;
+
+  @OneToMany(() => Rate, rate => rate.rtg)
+rates: Rate[];
+@OneToMany(() => Rate, rate => rate.rti)
+ratestkr: Rate[];
 }
