@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Rate } from './rate.entity';
 import { Gig } from './gig.entity';
+import { Invoice } from './invoice.entity';
 @Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', comment: 'UserId' })
@@ -74,4 +75,7 @@ export class User {
   ratestkr: Rate[];
   @OneToMany(() => Gig, (gig) => gig.uid)
   gigUser: Gig[];
+
+  @OneToMany(() => Invoice, (invo) => invo.uid)
+  invoiceUser: Invoice[];
 }

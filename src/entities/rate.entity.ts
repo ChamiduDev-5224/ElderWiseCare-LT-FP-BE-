@@ -13,10 +13,10 @@ cmt:string;
 dtt:string;
 
 @ManyToOne(() => User, user => user.rates, { nullable: false })
-  @JoinColumn({ name: 'Rate Giver ID' }) 
+  @JoinColumn({ name: 'rgi' }) 
   rtg: User;
 
   @ManyToOne(() => User, user => user.ratestkr, { nullable: false })
-  @JoinColumn({ name: 'Rate Taker ID' }) 
+  @JoinColumn({ name: 'rti' }) 
   rti: User;
 }
