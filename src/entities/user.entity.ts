@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Rate } from './rate.entity';
-
+import { Gig } from './gig.entity';
 @Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', comment: 'UserId' })
@@ -44,17 +44,17 @@ export class User {
   @Column({ nullable: true, comment: 'ZIP Code' })
   zcd: number;
   @Column({ nullable: true, comment: 'City' })
-  cty: string;
+  cty: number;
   @Column({ nullable: true, comment: 'Province' })
-  prn: string;
+  prn: number;
   @Column({ nullable: true, comment: 'Street' })
   str: string;
   @Column({ nullable: true, comment: 'District' })
-  dis: string;
-  @Column({ type: 'decimal', nullable: true, comment: 'Latitude' })
+  dis: number;
+  @Column({ type: 'double', nullable: true, comment: 'Latitude' })
   lat: number;
-  @Column({ type: 'decimal', nullable: true, comment: 'longitude' })
-  lgt: string;
+  @Column({ type: 'double', nullable: true, comment: 'longitude' })
+  lgt: number;
   @Column({ nullable: true, comment: 'Image Url' })
   imu: string;
   @Column({ default: 0, comment: 'Is Google' })
@@ -65,9 +65,13 @@ export class User {
   upd: string;
   @Column({ nullable: true, comment: 'Created Date Time' })
   crd: string;
-
+  @Column({ nullable: true })
+  refreshToken?: string;
+  
   @OneToMany(() => Rate, (rate) => rate.rtg)
   rates: Rate[];
   @OneToMany(() => Rate, (rate) => rate.rti)
   ratestkr: Rate[];
+  @OneToMany(() => Gig, (gig) => gig.uid)
+  gigUser: Gig[];
 }
