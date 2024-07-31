@@ -10,6 +10,14 @@ import { EssentialModule } from './essential/essential.module';
 import { EssentialService } from './essential/essential.service';
 import { EssentialController } from './essential/essential.controller';
 import { Gig } from './entities/gig.entity';
+import { Service } from './entities/service.entity';
+import { Invoice } from './entities/invoice.entity';
+import { ChatDetails } from './entities/chatDetails.entity';
+import { Product } from './entities/product.entity';
+import { GigModule } from './gig/gig.module';
+import { ChatModule } from './chat/chat.module';
+import { ChatGateway } from './chat/chat.gateway';
+
 
 @Module({
   imports: [
@@ -26,7 +34,7 @@ import { Gig } from './entities/gig.entity';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [User,Gig,Rate],
+        entities: [User,Gig,Rate,Service,Invoice,ChatDetails,Product],
         synchronize: true,
       }),
 
@@ -34,9 +42,13 @@ import { Gig } from './entities/gig.entity';
     }),
     AuthModule,
     EssentialModule,
+    GigModule,
+    ChatModule,
+
+
   ],
   controllers: [AppController,EssentialController],
-  providers: [AppService,EssentialService],
+  providers: [AppService,EssentialService,ChatGateway],
 })
 export class AppModule {
   

@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Rate } from './rate.entity';
 import { Gig } from './gig.entity';
 import { Invoice } from './invoice.entity';
+import { ChatDetails } from './chatDetails.entity';
 @Entity({ name: 'user' })
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', comment: 'UserId' })
@@ -73,9 +74,16 @@ export class User {
   rates: Rate[];
   @OneToMany(() => Rate, (rate) => rate.rti)
   ratestkr: Rate[];
-  @OneToMany(() => Gig, (gig) => gig.uid)
-  gigUser: Gig[];
+  
+  @OneToMany(() => Gig, (gig) => gig.user)
+  gigs: Gig[];
 
   @OneToMany(() => Invoice, (invo) => invo.uid)
   invoiceUser: Invoice[];
+
+  @OneToMany(() => ChatDetails, (ct) => ct.uid)
+  userid: ChatDetails[];
+
+  @OneToMany(() => ChatDetails, (ct) => ct.uti)
+  chttkrid: ChatDetails[];
 }

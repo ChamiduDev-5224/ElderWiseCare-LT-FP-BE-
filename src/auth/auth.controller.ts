@@ -13,6 +13,7 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { BioInfoDto } from './dto/bio-info.dto';
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService, ) {}
