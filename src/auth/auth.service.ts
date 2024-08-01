@@ -22,16 +22,7 @@ export class AuthService {
     @InjectEntityManager() private entityManager: EntityManager,
     private readonly dataSource: DataSource
   ) {
-    // this.s3 = new AWS.S3({
-    //   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    //   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    //   region: process.env.AWS_REGION,
-    //   httpOptions: {
-    //     timeout: 30000, // Increase the timeout to 30 seconds
-    //     connectTimeout: 5000, // Increase the connection timeout to 5 seconds
-    //   },
-    // });
-
+  
     this.s3 = new AWS.S3({
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -244,7 +235,6 @@ export class AuthService {
     user.sts = 1;
     // Save the updated user
     await this.userRepository.save(user);
-
     return user;
   }
 
